@@ -208,6 +208,8 @@ def install(r):
     @bp.get(r.PREFIX+'/analytics')
     def dashboard():
         if not g.user: return redirect(r.PREFIX+'/login?mode=staff&analytics=1')
+        if g.session.get('mode') != 'staff':
+            return r.page('staff-access-required.html', service='Analytics', login_url=r.PREFIX+'/login?mode=staff&analytics=1', role_note='an assigned analytics staff role'), 403
         require()
         return r.page('analytics.html',report=report(),modules=__import__('knowledge_management').MODULES)
 
