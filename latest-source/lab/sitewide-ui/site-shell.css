@@ -21,3 +21,24 @@ body.ng2p-staff-portal .pt-17\.5 .grid.grid-cols-4 > div:focus-within{outline:3p
 @media(max-width:600px){body.ng2p-staff-portal > header{height:64px!important;padding:10px 16px!important}body.ng2p-staff-portal > header button span{max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}body.ng2p-staff-portal .pt-17\.5 > div > div:first-child{min-height:190px!important;padding:36px 20px!important}body.ng2p-staff-portal .pt-17\.5 .bg-black.py-12{padding:24px 16px 44px!important}body.ng2p-staff-portal .pt-17\.5 .grid.grid-cols-4{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px!important}body.ng2p-staff-portal .pt-17\.5 .grid.grid-cols-4 > div{min-height:140px!important;padding:18px!important;overflow-wrap:anywhere}}
 @media(max-width:350px){body.ng2p-staff-portal .pt-17\.5 .grid.grid-cols-4{grid-template-columns:1fr!important}}
 body.ng2p-staff-portal .pt-17\.5 .grid.grid-cols-4 > div .text-white{color:#193c35!important;font-size:18px!important;line-height:1.35!important}
+
+/* ODK Central retains its identity and behaviour; colours follow NigeriaG2P. */
+body.ng2p-odk{background:#f3f7f3!important;color:#193c35!important}
+body.ng2p-odk #app .navbar-default{background:#fff!important;border-bottom:1px solid #dce8df!important;box-shadow:0 2px 14px #193c350d!important}
+body.ng2p-odk #app .navbar-default .navbar-brand{color:#155d50!important;font-weight:750!important}
+body.ng2p-odk #app .navbar-default .navbar-nav > li > a{color:#315c4e!important}
+body.ng2p-odk #app .navbar-default .navbar-nav > .active > a{color:#155d50!important;background:#e7f1e9!important}
+body.ng2p-odk #app a{color:#155d50}
+body.ng2p-odk #app .btn-primary{background:#155d50!important;border-color:#155d50!important;color:#fff!important}
+body.ng2p-odk #app .btn-primary:hover,body.ng2p-odk #app .btn-primary:focus{background:#104b40!important;border-color:#104b40!important}
+body.ng2p-odk #app :is(a,button,input,select):focus-visible{outline:3px solid #488f7f!important;outline-offset:2px!important}
+body.ng2p-odk #home-summary{background:#e5f0e8!important;border-bottom:1px solid #d4e3d8!important}
+body.ng2p-odk #home-summary .home-summary-item{color:#193c35!important}
+body.ng2p-odk #home-summary .home-summary-item .body{color:#506b60!important}
+body.ng2p-odk #page-body .page-section{background:#fff!important;border:1px solid #dce8df!important;border-radius:12px!important;box-shadow:0 4px 18px #193c350a!important;overflow:hidden}
+body.ng2p-odk #page-body .page-section-heading{color:#193c35!important}
+body.ng2p-odk #app .form-control:focus{border-color:#488f7f!important;box-shadow:0 0 0 3px #488f7f35!important}
+@media(max-width:700px){body.ng2p-odk #page-body .page-section{border-radius:8px!important}body.ng2p-odk #app .navbar-default .navbar-toggle{border-color:#b6cfc0!important}body.ng2p-odk #app .navbar-default .navbar-icon-bar{background:#155d50!important}}
+body.ng2p-odk #app .navbar-default{border-top-color:#155d50!important}
+body.ng2p-odk #app .page-section-heading > span{color:#155d50!important}
+body.ng2p-odk #home-summary .home-summary-item .heading > [class*="icon-"]{color:#155d50!important;background:#e4f0e9!important}
