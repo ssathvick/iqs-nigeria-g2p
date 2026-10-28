@@ -48,3 +48,25 @@ body.ng2p-odk #app .navbar-brand::before{content:"";display:inline-block;width:3
 body.ng2p-registry button[aria-label="Filters"]{gap:6px!important;padding-left:10px!important;padding-right:10px!important;white-space:nowrap!important}
 body.ng2p-registry button[aria-label="Filters"]::after{content:attr(aria-label);font:600 14px/1.2 system-ui,sans-serif;color:#155d50}
 body.ng2p-registry img[data-iqs-registry-hero]{display:block!important;width:100%!important;height:auto!important;max-height:380px!important;object-fit:contain!important;object-position:center bottom!important;margin:20px auto 0!important}
+
+/* Registry dashboard readability: keep the existing data, selection and permissions. */
+body.ng2p-registry .max-w-6xl [role="button"].bg-secondary-second{background:#fff!important;color:#31584b!important;border:1px solid #d5e4da!important;box-shadow:0 3px 14px #193c350b}
+body.ng2p-registry .max-w-6xl [role="button"].bg-neutral-first{background:#155d50!important;color:#fff!important;border-color:#155d50!important}
+body.ng2p-registry .max-w-6xl [role="button"] h3,body.ng2p-registry .max-w-6xl [role="button"] li span{white-space:normal!important;overflow:visible!important;text-overflow:clip!important;overflow-wrap:anywhere}
+body.ng2p-registry .max-w-6xl [role="button"]:focus-visible{outline:3px solid #488f7f!important;outline-offset:3px!important}
+@media(max-width:700px){
+ body.ng2p-registry .max-w-6xl .overscroll-none > .overflow-hidden:has([role="button"]){overflow-x:auto!important;overscroll-behavior-x:contain;scrollbar-width:thin}
+ body.ng2p-registry .max-w-6xl .overscroll-none > .overflow-hidden > .will-change-transform{width:max-content!important;transform:none!important;transition:none!important;padding:3px 3px 10px}
+ body.ng2p-registry .max-w-6xl .overscroll-none > .overflow-hidden > .will-change-transform > div{width:205px!important;min-width:205px!important}
+ body.ng2p-registry .max-w-6xl .overscroll-none > button{display:none!important}
+ body.ng2p-registry .max-w-6xl .overscroll-none [role="button"]{padding:18px!important;min-height:210px!important}
+ body.ng2p-registry .max-w-6xl .relative.border:has(input){width:100%!important;min-width:0!important}
+ body.ng2p-registry .max-w-6xl .relative.border:has(input) input{min-width:0!important;font-size:16px!important}
+ body.ng2p-registry .max-w-6xl .relative.border:has(input) > div{min-width:0!important}
+}
+@media(max-width:700px){
+ body.ng2p-registry a[href*="/register/"][class*="flex-1"][class*="min-w-0"]{display:grid!important;grid-template-columns:48px minmax(0,1fr)!important;align-items:start!important;gap:8px 12px!important}
+ body.ng2p-registry a[href*="/register/"][class*="flex-1"][class*="min-w-0"] > div:nth-child(n+3){grid-column:2;min-width:0}
+ body.ng2p-registry a[href*="/register/"][class*="flex-1"][class*="min-w-0"] p{white-space:normal!important;overflow-wrap:anywhere;overflow:visible!important}
+ body.ng2p-registry a[href*="/register/"][class*="flex-1"][class*="min-w-0"] p.invisible{display:none}
+}
