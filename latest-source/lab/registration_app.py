@@ -88,6 +88,8 @@ def require_user():
 def require_staff():
  if not g.staff and not getattr(g,'workspace_verification_authorized',False):abort(403,'Staff reviewer access is required.')
 def page(name,**kw):return render_template(name,user=g.user,staff=g.staff,csrf=g.session['csrf'],base=BASE,prefix=PREFIX,**kw)
+@app.get(PREFIX+'/mobile')
+def mobile_information():return page('mobile.html')
 @app.get(PREFIX+'/health')
 def health():return {'status':'ok','service':'IQS registration integration'}
 @app.get(PREFIX+'/login')

@@ -9,6 +9,7 @@ Read **[DEVELOPER-SETUP.md](DEVELOPER-SETUP.md)** for system requirements, devel
 * **Quick standalone UX/KMS preview:** run `Start-Experience-Preview.bat`. This runs a small, separate Experience Kit; it is not the complete NigeriaG2P site.
 * **Full sandbox installation:** run `Prepare-Full-Lab.bat` to verify and extract the original kit, then follow the staged guide. `Install-WSL-Ubuntu.bat` can install WSL and Ubuntu 22.04 when needed. Full installation and the newer feature overlay remain manual and have not been verified on a clean machine.
 * **Exact operational state:** obtain a separately encrypted private backup and its key through approved channels. GitHub does not contain live databases, passwords, private keys or tunnel credentials. Do not run a recovered public tunnel against the existing site.
+* **Android/iOS prototype:** see [mobile-app/README.md](mobile-app/README.md). This early React Native project opens the existing sandbox services in the device browser; signed installable apps and native authentication are not yet available.
 
 ## Download and use on another machine
 

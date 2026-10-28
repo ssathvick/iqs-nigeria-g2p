@@ -66,6 +66,14 @@
       }
     }
     const login = document.querySelector('form.oe_login_form, #kc-form-login, #kc-reset-password-form');
+    if (login && !login.querySelector('.iqs-mobile-info-link')) {
+      const link = document.createElement('a');
+      link.className = 'iqs-mobile-info-link';
+      link.href = 'https://nigeriag2p.com/registration/mobile';
+      link.textContent = 'Mobile apps';
+      link.style.cssText = 'display:block;margin:16px 0;color:#155d50;font-weight:600';
+      login.appendChild(link);
+    }
     if (location.hostname === 'beneficiary.openg2p-ux.localhost' && /\/login\/?$/.test(location.pathname)) {
       const demoLink = document.querySelector('a[href*="getLoginProviderRedirect/4"]');
       if (demoLink && !document.querySelector('.iqs-beneficiary-login-note')) {
