@@ -70,3 +70,34 @@ body.ng2p-registry .max-w-6xl [role="button"]:focus-visible{outline:3px solid #4
  body.ng2p-registry a[href*="/register/"][class*="flex-1"][class*="min-w-0"] p{white-space:normal!important;overflow-wrap:anywhere;overflow:visible!important}
  body.ng2p-registry a[href*="/register/"][class*="flex-1"][class*="min-w-0"] p.invisible{display:none}
 }
+/* Keep selection and search controls within the mobile viewport. */
+@media(max-width:700px){
+ body.ng2p-registry div.bg-neutral-second:has(> div > div > input[placeholder="Search"]){flex-wrap:wrap!important;gap:12px!important}
+ body.ng2p-registry div.bg-neutral-second:has(> div > div > input[placeholder="Search"]) > div:first-child{flex:1 1 100%!important;min-width:0}
+ body.ng2p-registry div.bg-neutral-second:has(> div > div > input[placeholder="Search"]) > div.relative{flex:1 1 100%!important;min-width:0!important;width:100%!important;margin-left:0!important}
+ body.ng2p-registry div.relative:has(> div > div > input[placeholder="Search"]) > div{width:100%!important;min-width:0!important}
+ body.ng2p-registry input[placeholder="Search"]{min-width:0!important}
+}
+@media(max-width:700px){
+ body.ng2p-registry div[class*="min-w-[500px]"]{min-width:0!important;width:100%!important;max-width:100%!important;flex-direction:column!important;min-height:0!important}
+ body.ng2p-registry div[class*="min-w-[500px]"] > div:first-of-type{width:100%!important;flex-direction:row!important;flex-wrap:wrap!important;padding:46px 12px 10px!important;gap:4px!important;border-radius:10px 10px 0 0!important}
+ body.ng2p-registry div[class*="min-w-[500px]"] > div:first-of-type button{width:auto!important;padding:6px 10px!important}
+ body.ng2p-registry div[class*="min-w-[500px]"] > div:last-of-type{min-width:0!important;padding:16px!important}
+}
+@media(max-width:700px){
+ body.ng2p-registry div.bg-neutral-second.flex:has(> div.relative input[placeholder="Search"]){flex-wrap:wrap!important;gap:12px!important}
+ body.ng2p-registry div.bg-neutral-second.flex:has(> div.relative input[placeholder="Search"]) > div:first-child{flex:1 1 100%!important;flex-wrap:wrap!important;min-width:0!important}
+ body.ng2p-registry div.bg-neutral-second.flex:has(> div.relative input[placeholder="Search"]) > div.relative{flex:1 1 100%!important;min-width:0!important;width:100%!important;margin:0!important}
+ body.ng2p-registry div.bg-neutral-second.flex:has(> div.relative input[placeholder="Search"]) > div.relative > div:first-child{width:100%!important;min-width:0!important}
+ body.ng2p-registry div.flex:has(> div img[alt="next"]):has(> div img[alt="prev"]){flex-wrap:wrap}
+ body.ng2p-registry div.flex:has(> div > div img[alt="next"]):has(> a[href$="/en"]){flex-wrap:wrap!important}
+}
+@media(max-width:700px){
+ body.ng2p-registry input[placeholder="Search"]:not([type="hidden"]){width:0!important;min-width:0!important}
+ body.ng2p-registry div:has(> input[placeholder="Search"]){min-width:0!important}
+}
+@media(max-width:700px){
+ body.ng2p-registry .section-panels .panel-horizontal > .grid{grid-template-columns:minmax(0,1fr)!important}
+ body.ng2p-registry .section-panels .panel-horizontal > .grid > [class*="min-w-200"]{min-width:0!important;padding-left:0!important;padding-right:0!important}
+ body.ng2p-registry .section-panels .widget-container{min-width:0;overflow-wrap:anywhere}
+}
