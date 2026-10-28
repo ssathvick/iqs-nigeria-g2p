@@ -1,6 +1,14 @@
 # IQS Nigeria G2P recovery repository
 
-Private archive of the Nigeria OpenG2P sandbox installation kit, custom source, operations documentation and submitted UX delivery documents.
+Private handoff of the Nigeria OpenG2P synthetic sandbox installation kit, newer custom source, and operations documentation. The complete platform is not yet a verified one-click installer or a production-ready CCT system.
+
+## Start here
+
+Read **[DEVELOPER-SETUP.md](DEVELOPER-SETUP.md)** for system requirements, developer access, and step-by-step instructions.
+
+* **Quick standalone UX/KMS preview:** run `Start-Experience-Preview.bat`. This runs a small, separate Experience Kit; it is not the complete NigeriaG2P site.
+* **Full sandbox installation:** run `Prepare-Full-Lab.bat` to verify and extract the original kit, then follow the staged guide. `Install-WSL-Ubuntu.bat` can install WSL and Ubuntu 22.04 when needed. Full installation and the newer feature overlay remain manual and have not been verified on a clean machine.
+* **Exact operational state:** obtain a separately encrypted private backup and its key through approved channels. GitHub does not contain live databases, passwords, private keys or tunnel credentials. Do not run a recovered public tunnel against the existing site.
 
 ## Download and use on another machine
 
@@ -14,7 +22,7 @@ Expand-Archive -LiteralPath .\IQS-Nigeria-G2P-Recovery-Bundle.zip -DestinationPa
 
 Alternatively use **Code → Download ZIP**, extract it, then extract the recovery bundle inside it.
 
-The complete working reference tree is in `recovery/iqs-nigeria-g2p/`. Begin with its `README.md` and `docs/REINSTALL.md`, then follow the installation Word guide. The archive preserves folder structure and the pinned chart kit; it is not an executable installer.
+The historical reference tree is in `recovery/iqs-nigeria-g2p/`. Begin with its `README.md` and `docs/REINSTALL.md`, then follow the installation Word guide. The archive preserves folder structure and the pinned chart kit; it is not an executable installer and predates `latest-source/`.
 
 ## Included
 

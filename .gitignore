@@ -1,0 +1,20 @@
+# Local runtime state and secrets must not be committed.
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+*.p12
+*.pfx
+*.sqlite*
+*.db
+*.dump
+*.backup
+*.log
+credentials.yaml
+*Credentials.txt
+**/__pycache__/
+**/node_modules/
+**/.venv/
+backups/
+recovery/
