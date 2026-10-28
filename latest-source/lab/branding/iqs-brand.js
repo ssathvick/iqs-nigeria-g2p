@@ -48,6 +48,13 @@
       const href = link.getAttribute('href');
       if (/^https?:\/\/(?:www\.)?openg2p\.org(?:\/|$)/i.test(href)) link.setAttribute('href','https://iqs-solutions.com/');
     });
+    // Change the ODK Central product label only; leave help, attribution and form content intact.
+    if (['odk.nigeriag2p.com', 'odk.openg2p.localhost'].includes(location.hostname)) {
+      const odkBrand = document.querySelector('#app .navbar-brand');
+      if (odkBrand && odkBrand.textContent.trim() !== 'IQS Field Data') odkBrand.textContent = 'IQS Field Data';
+      const brandedTitle = document.title.replace(/ODK Central/g, 'IQS Field Data');
+      if (document.title !== brandedTitle) document.title = brandedTitle;
+    }
     const login = document.querySelector('form.oe_login_form, #kc-form-login, #kc-reset-password-form');
     if (location.hostname === 'beneficiary.openg2p-ux.localhost' && /\/login\/?$/.test(location.pathname)) {
       const demoLink = document.querySelector('a[href*="getLoginProviderRedirect/4"]');
