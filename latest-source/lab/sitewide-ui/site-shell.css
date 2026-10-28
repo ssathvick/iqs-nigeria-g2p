@@ -101,3 +101,16 @@ body.ng2p-registry .max-w-6xl [role="button"]:focus-visible{outline:3px solid #4
  body.ng2p-registry .section-panels .panel-horizontal > .grid > [class*="min-w-200"]{min-width:0!important;padding-left:0!important;padding-right:0!important}
  body.ng2p-registry .section-panels .widget-container{min-width:0;overflow-wrap:anywhere}
 }
+/* Household member tables scroll within the panel on small screens. */
+@media(max-width:700px){
+ body.ng2p-registry .section-hh_members .table-widget-container{min-width:0!important;width:100%!important;max-width:100%!important}
+ body.ng2p-registry .section-hh_members .table-widget-container > .overflow-x-auto{max-width:100%;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:thin}
+}
+@media(max-width:700px){
+ body.ng2p-registry header > div > a{flex:1 1 auto;min-width:0!important;overflow:hidden!important}
+ body.ng2p-registry header > div > a span{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:14px!important}
+ body.ng2p-registry header > div > div.flex{flex-shrink:0;gap:4px!important}
+ body.ng2p-registry header button:has(img[alt="User Avatar"]) > span{max-width:65px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+ body.ng2p-registry button[class*="rounded-t-"]{max-width:none!important;min-width:0!important}
+ body.ng2p-registry button[class*="rounded-t-"] > span{white-space:normal!important;overflow:visible!important}
+}
