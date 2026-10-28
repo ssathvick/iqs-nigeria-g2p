@@ -26,6 +26,7 @@ shutil.copy2(SRC/'registration_app.py',ROOT/'registration_app.py')
 (ROOT/'templates').mkdir(exist_ok=True);(ROOT/'static').mkdir(exist_ok=True)
 for f in (SRC/'registration-ui').glob('*.html'):shutil.copy2(f,ROOT/'templates'/f.name)
 shutil.copy2(SRC/'registration-ui/style.css',ROOT/'static/style.css')
+shutil.copy2(SRC/'registration-ui/language.js',ROOT/'static/language.js')
 (ROOT/'ca-bundle.crt').write_bytes(pathlib.Path('/etc/ssl/certs/ca-certificates.crt').read_bytes()+b'\n'+pathlib.Path('/opt/openg2p-lab/tls/ca.crt').read_bytes())
 unit='''[Unit]
 Description=IQS Nigeria beneficiary registration and integration
@@ -85,3 +86,4 @@ for home in ['/opt/openg2p-lab/public-home/index.html','/opt/openg2p-lab/home/in
   html=html.replace('<div class="grid">','<div class="grid">\n'+cards);p.write_text(html)
 subprocess.run(['systemctl','daemon-reload'],check=True);subprocess.run(['systemctl','enable','--now','iqs-registration.service','iqs-registration-sync.timer'],check=True)
 print('Registration integration installed. OIDC signup enabled for beneficiary realm only. Reviewer assigned to existing staff administrator.')
+

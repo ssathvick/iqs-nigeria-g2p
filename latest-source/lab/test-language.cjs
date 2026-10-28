@@ -1,0 +1,11 @@
+const fs = require('fs'), vm = require('vm'), assert = require('assert');
+let saved = 'ha', handler;
+const selector = {value: '', addEventListener: (_, fn) => handler = fn};
+const notice = {textContent: '', hidden: true};
+const node = {dataset: {i18n: 'services'}, textContent: '', lang: ''};
+const context = {document: {getElementById: id => id === 'display-language' ? selector : notice, querySelectorAll: () => [node]}, localStorage: {getItem: () => saved, setItem: (_, value) => saved = value}};
+vm.runInNewContext(fs.readFileSync('registration-ui/language.js', 'utf8'), context);
+assert.equal(selector.value, 'ha'); assert.equal(node.textContent, 'Dukkan ayyuka'); assert.equal(node.lang, 'ha'); assert.equal(notice.hidden, false);
+selector.value = 'ig'; handler(); assert.equal(saved, 'ig'); assert.equal(node.textContent, 'Ọrụ niile');
+selector.value = 'en'; handler(); assert.equal(notice.hidden, true); assert.equal(node.textContent, 'All services');
+console.log('Language selector checks passed.');
