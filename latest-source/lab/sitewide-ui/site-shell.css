@@ -44,3 +44,6 @@ body.ng2p-odk #app .page-section-heading > span{color:#155d50!important}
 body.ng2p-odk #home-summary .home-summary-item .heading > [class*="icon-"]{color:#155d50!important;background:#e4f0e9!important}
 body.ng2p-odk #app .navbar-brand{display:flex!important;align-items:center!important;gap:7px!important;height:30px!important;min-height:0!important;padding:3px 12px!important;box-sizing:border-box!important}
 body.ng2p-odk #app .navbar-brand::before{content:"";display:inline-block;width:36px;height:22px;background:url("/iqs-brand/iqs-logo.png") center / contain no-repeat;flex:none}
+/* Label the existing registry filter button; the application handles all filtering. */
+body.ng2p-registry button[aria-label="Filters"]{gap:6px!important;padding-left:10px!important;padding-right:10px!important;white-space:nowrap!important}
+body.ng2p-registry button[aria-label="Filters"]::after{content:attr(aria-label);font:600 14px/1.2 system-ui,sans-serif;color:#155d50}
