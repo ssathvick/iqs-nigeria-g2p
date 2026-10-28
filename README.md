@@ -50,3 +50,7 @@ Git stores source and documentation, not the running application's database or p
 Third-party software retains its respective licenses and notices. Project documents are stored privately; no open-source license is assigned to them.
 
 Archived 4 October 2026.
+
+## Newer developer source snapshot (28 October 2026)
+
+`latest-source/` contains a source snapshot based on the separate UX/KMS repository, overlaid with matching current local lab files and selected newer analytics, simulation and Phase 1 modules. See `latest-source/lab/OORU-CCT-Implementation-Handoff.md` and `latest-source/lab/Analytics-Operations.md` first. The original recovery bundle above remains the installation baseline; the new snapshot is not a complete rebuilt installation kit. Reconcile and test the two before deployment. Snapshot scripts may refer to the original machine and require review. No clean installation, production security assessment, live NSR/NIMC integration, payment settlement certification or production acceptance is asserted. Use synthetic data only until those gaps are closed.
