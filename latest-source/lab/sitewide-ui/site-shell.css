@@ -47,3 +47,4 @@ body.ng2p-odk #app .navbar-brand::before{content:"";display:inline-block;width:3
 /* Label the existing registry filter button; the application handles all filtering. */
 body.ng2p-registry button[aria-label="Filters"]{gap:6px!important;padding-left:10px!important;padding-right:10px!important;white-space:nowrap!important}
 body.ng2p-registry button[aria-label="Filters"]::after{content:attr(aria-label);font:600 14px/1.2 system-ui,sans-serif;color:#155d50}
+body.ng2p-registry img[data-iqs-registry-hero]{display:block!important;width:100%!important;height:auto!important;max-height:380px!important;object-fit:contain!important;object-position:center bottom!important;margin:20px auto 0!important}

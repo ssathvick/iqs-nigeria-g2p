@@ -55,6 +55,16 @@
       const brandedTitle = document.title.replace(/ODK Central/g, 'IQS Field Data');
       if (document.title !== brandedTitle) document.title = brandedTitle;
     }
+    // Replace only the registry landing illustration, not record or profile images.
+    if (['register.nigeriag2p.com', 'register.openg2p.localhost'].includes(location.hostname) && /^\/(?:en|fr|de|es)?\/?$/.test(location.pathname)) {
+      const hero = document.querySelector('img[alt="Peoples"], img[data-iqs-registry-hero]');
+      if (hero && !hero.hasAttribute('data-iqs-registry-hero')) {
+        hero.setAttribute('data-iqs-registry-hero', 'true');
+        hero.removeAttribute('srcset');
+        hero.setAttribute('src', root + 'nigeria-registry-community.png');
+        hero.setAttribute('alt', 'Nigerian community members using digital public services');
+      }
+    }
     const login = document.querySelector('form.oe_login_form, #kc-form-login, #kc-reset-password-form');
     if (location.hostname === 'beneficiary.openg2p-ux.localhost' && /\/login\/?$/.test(location.pathname)) {
       const demoLink = document.querySelector('a[href*="getLoginProviderRedirect/4"]');
