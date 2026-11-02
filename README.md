@@ -63,3 +63,7 @@ Archived 4 October 2026.
 ## Newer developer source snapshot (28 October 2026)
 
 `latest-source/` contains a source snapshot based on the separate UX/KMS repository, overlaid with matching current local lab files and selected newer analytics, simulation and Phase 1 modules. See `latest-source/lab/OORU-CCT-Implementation-Handoff.md` and `latest-source/lab/Analytics-Operations.md` first. The original recovery bundle above remains the installation baseline; the new snapshot is not a complete rebuilt installation kit. Reconcile and test the two before deployment. Snapshot scripts may refer to the original machine and require review. No clean installation, production security assessment, live NSR/NIMC integration, payment settlement certification or production acceptance is asserted. Use synthetic data only until those gaps are closed.
+
+## NSIPA branding update
+
+The current lab sources include the NSIPA identity, shared service theme and native company/realm branding installers. See [latest-source/lab/branding/README.md](latest-source/lab/branding/README.md) for build, application and verification steps, and editable Illustrator/SVG/Photoshop masters. Historical recovery archives retain their original contents; apply the current branding sources after restoration.
