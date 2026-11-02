@@ -34,3 +34,6 @@ private/
 startup-logs/
 .cloudflared/
 .kube/
+
+# Reusable kit schema is source, not runtime data.
+!experience-kit/schema.sql
