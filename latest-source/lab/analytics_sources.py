@@ -2,6 +2,7 @@
 import json
 from pathlib import Path
 import psycopg2
+from service_reporting import SPECS,view_name
 
 # Fixed aggregate SQL. No demographic fields, beneficiary identifiers or bank details.
 SOURCES = {
@@ -20,6 +21,9 @@ SOURCES = {
   'instructions': "SELECT 'Disbursement instruction records',COUNT(*) FROM disbursements UNION ALL SELECT 'Reconciliation records not validated as settlement',COUNT(*) FROM disbursement_recons",
   'bank_dispatch_status': "SELECT COALESCE(sponsor_bank_dispatch_status,'Unknown'),COUNT(*) FROM disbursement_batch_control GROUP BY 1"})}
 
+
+for service,spec in SPECS.items():
+    SOURCES[spec['source']]=(spec['database'],{name:'SELECT label,value FROM nsipa_reporting.'+view_name(service,name) for name in spec['metrics']})
 
 def refresh(r):
     config=json.loads((r.ROOT/'analytics-connections.json').read_text())
@@ -52,6 +56,8 @@ def refresh(r):
         cur.execute("SET LOCAL statement_timeout='20s'")
         cur.execute('DELETE FROM aggregate_metrics')
         for source in r.rows('SELECT * FROM analytics_source_cache'):
+            # Supervisor-only reports stay behind the dashboard role check, not the broader Superset dataset.
+            if any(spec.get('restricted') and spec['source']==source['source'] for spec in SPECS.values()):continue
             for metric,rows in json.loads(source['payload']).items():
                 for row in rows:
                     cur.execute('INSERT INTO aggregate_metrics VALUES(%s,%s,%s,%s,%s,%s)',

@@ -96,14 +96,18 @@ def health():return {'status':'ok','service':'IQS registration integration'}
 def login():
  mode='staff' if request.args.get('mode')=='staff' else 'beneficiary';state=secrets.token_urlsafe(32);verifier=secrets.token_urlsafe(48);nonce=secrets.token_urlsafe(32)
  g.session['login']={'mode':mode,'state':state,'verifier':verifier,'nonce':nonce,'at':int(time.time()),'workspace':request.args.get('workspace')=='1','geography':request.args.get('geography')=='1','knowledge':request.args.get('knowledge')=='1','analytics':request.args.get('analytics')=='1','simulation':request.args.get('simulation')=='1','ai':request.args.get('ai')=='1','ai_module':request.args.get('module','platform')[:80],'ai_stage':request.args.get('stage','')[:160]}
+ g.session['login']['jos']=request.args.get('jos')=='1'
+ g.session['login']['jos_minister']=request.args.get('minister')=='1'
  g.session['login']['phase1']=request.args.get('phase1')=='1'
+ g.session['login']['dashboard_service']=request.args.get('service','overview')[:80]
+ g.session['login']['records']=request.args.get('_nsipa_records')=='1' or '_nsipa_records=1' in (request.referrer or '')
  g.session['login']['grievances']=request.args.get('grievances')=='1'
  client=CONFIG['clients'][mode];params={'client_id':client['id'],'response_type':'code','scope':'openid profile email','redirect_uri':BASE+PREFIX+'/callback','state':state,'nonce':nonce,'code_challenge':base64.urlsafe_b64encode(hashlib.sha256(verifier.encode()).digest()).decode().rstrip('='),'code_challenge_method':'S256'}
  endpoint='registrations' if request.args.get('signup')=='1' and mode=='beneficiary' else 'auth'
  return redirect(issuer(mode)+'/protocol/openid-connect/'+endpoint+'?'+urlencode(params))
 def default_login_destination(mode,roles):
- if mode!='staff':return PREFIX+'/'
- if 'iqs-intake-reviewer' in roles:return PREFIX+'/staff'
+ if mode!='staff':return PREFIX+'/analytics?service=beneficiary'
+ if {'iqs-intake-reviewer','iqs-programme-supervisor','iqs-registration-officer','iqs-verification-officer'} & set(roles):return PREFIX+'/analytics'
  return PREFIX+'/workspace'
 @app.get(PREFIX+'/callback')
 def callback():
@@ -119,10 +123,15 @@ def callback():
  access=jwt.decode(tokens['access_token'],key,algorithms=['RS256'],issuer=iss,options={'verify_aud':False})
  g.session={'csrf':secrets.token_urlsafe(32),'mode':flow['mode'],'user':{'sub':claims['sub'],'name':claims.get('name',claims.get('preferred_username','')),'email':claims.get('email',''),'roles':access.get('realm_access',{}).get('roles',[])}}
  old=g.sid;g.sid=secrets.token_urlsafe(32);execute('DELETE FROM sessions WHERE id=?',(old,))
+ if flow.get('jos'):return redirect(PREFIX+'/jos-cct'+('/minister' if flow.get('jos_minister') else ''))
  if flow.get('grievances'):return redirect(PREFIX+'/phase1/grievances')
  if flow.get('phase1'):return redirect(PREFIX+'/phase1')
  if flow.get('ai'):return redirect(PREFIX+'/ai?'+urlencode({'module':flow.get('ai_module','platform'),'stage':flow.get('ai_stage','')}))
- return redirect(PREFIX+'/simulation' if flow.get('simulation') else PREFIX+'/analytics' if flow.get('analytics') else PREFIX+'/knowledge/admin' if flow.get('knowledge') else PREFIX+'/geography' if flow.get('geography') else PREFIX+'/workspace' if flow.get('workspace') else default_login_destination(flow['mode'],g.session['user']['roles']))
+ if flow.get('analytics'):return redirect(PREFIX+'/analytics?'+urlencode({'service':flow.get('dashboard_service','overview')}))
+ if flow.get('simulation'):return redirect(PREFIX+'/simulation')
+ for intent,service,path in [('knowledge','knowledge','/knowledge/admin'),('geography','geography','/geography'),('workspace','review','/workspace')]:
+  if flow.get(intent):return redirect(PREFIX+path+'?_nsipa_records=1' if flow.get('records') else PREFIX+'/analytics?service='+service)
+ return redirect(PREFIX+'/?_nsipa_records=1' if flow.get('records') else default_login_destination(flow['mode'],g.session['user']['roles']))
 @app.post(PREFIX+'/logout')
 def logout():g.session={};return redirect(PREFIX+'/')
 @app.get(PREFIX+'/')
@@ -363,6 +372,8 @@ import partner_simulation
 partner_simulation.install(os.sys.modules[__name__])
 import phase1_sandbox
 phase1_sandbox.install(os.sys.modules[__name__])
+import jos_connected
+jos_connected.install(os.sys.modules[__name__])
 if __name__=='__main__':
  if '--reconcile' in os.sys.argv:reconcile()
  else:app.run(host='127.0.0.1',port=18081)

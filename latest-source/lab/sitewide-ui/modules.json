@@ -1,5 +1,20 @@
 [
   {
+    "id": "knowledge",
+    "title": "Knowledge library",
+    "group": "Shared services",
+    "host": "nigeriag2p.com",
+    "path": "/registration/knowledge",
+    "description": "Find stage guidance, common issues and instructions for your role.",
+    "roles": [
+      "officer",
+      "verifier",
+      "supervisor",
+      "citizen"
+    ],
+    "task": "Open workflow help"
+  },
+  {
     "id": "intake",
     "title": "Household registration",
     "group": "People and households",

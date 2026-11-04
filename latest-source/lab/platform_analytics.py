@@ -8,6 +8,7 @@ import math
 import uuid
 from collections import Counter
 from flask import Blueprint, abort, g, request, redirect
+import service_reporting
 
 ROLES = {'iqs-registration-officer', 'iqs-verification-officer', 'iqs-programme-supervisor', 'iqs-intake-reviewer'}
 
@@ -33,6 +34,9 @@ def install(r):
           source TEXT PRIMARY KEY, refreshed_at TEXT NOT NULL, payload TEXT NOT NULL,
           last_attempt TEXT NOT NULL, error TEXT);
         CREATE TABLE IF NOT EXISTS analytics_metadata (key TEXT PRIMARY KEY,value TEXT NOT NULL);
+        CREATE TABLE IF NOT EXISTS dashboard_demo_records (
+          record_id TEXT PRIMARY KEY,service TEXT NOT NULL,entity TEXT NOT NULL,status TEXT NOT NULL,
+          region TEXT NOT NULL,created_at TEXT NOT NULL,batch TEXT NOT NULL);
         ''')
         c.execute("INSERT OR IGNORE INTO analytics_metadata VALUES('tracking_started_at',?)", (r.stamp(),))
 
@@ -40,6 +44,9 @@ def install(r):
         r.require_user()
         if g.session.get('mode') != 'staff' or not (ROLES & set(g.user.get('roles', []))):
             abort(403, 'Analytics requires an assigned staff workspace role.')
+        spec=service_reporting.SPECS.get(request.args.get('service'))
+        if spec and not service_reporting.allowed(spec,g.user.get('roles',[])):
+            abort(403,'This service dashboard requires a supervisor or intake reviewer role.')
 
     def session_key():
         return hashlib.sha256(g.sid.encode()).hexdigest()
@@ -193,29 +200,59 @@ def install(r):
         module,state,programme,start,end=filters()
         sources=[]
         for row in r.rows('SELECT * FROM analytics_source_cache ORDER BY source'):
+            spec=next((s for s in service_reporting.SPECS.values() if s['source']==row['source']),{})
+            if not service_reporting.allowed(spec,g.user.get('roles',[])):continue
             try:
                 stale=(dt.datetime.now(dt.timezone.utc)-dt.datetime.fromisoformat(row['refreshed_at'])).total_seconds()>1800
             except (ValueError,TypeError):stale=True
             sources.append({'source':row['source'],'refreshed_at':row['refreshed_at'],'last_attempt':row['last_attempt'],
-                            'error': bool(row['error']), 'stale':stale, 'data':json.loads(row['payload'])})
+                            'error': bool(row['error']), 'stale':stale, 'data':json.loads(row['payload']),**service_reporting.metadata(row['source'])})
         return {'generated_at':r.stamp(),'timezone':'UTC','scope':'Existing synthetic sandbox staff scope across all intake records',
                 'filters':{'module':module,'state':state,'programme':programme,'start':start,'end':end},
                 'operations':operations(state,programme),'knowledge':knowledge(module,start,end),'sources':sources,
+                'allowed_services':[x for x in __import__('knowledge_management').MODULES if x not in service_reporting.SPECS or service_reporting.allowed(service_reporting.SPECS[x],g.user.get('roles',[]))],
+                'demo':{x:service_reporting.demos(r,x) for x in ['consent-manager','odk']},
                 'tracking_started_at':r.one("SELECT value FROM analytics_metadata WHERE key='tracking_started_at'")['value'],
                 'snapshots':[{'day':x['day'],'captured_at':x['captured_at'],'profiles':json.loads(x['payload'])['profiles'],
                               'review_backlog':json.loads(x['payload'])['review_backlog']} for x in r.rows('SELECT * FROM analytics_snapshots WHERE day>=? AND day<=? ORDER BY day',(start,end))]}
 
     @bp.get(r.PREFIX+'/analytics')
     def dashboard():
-        if not g.user: return redirect(r.PREFIX+'/login?mode=staff&analytics=1')
+        if not g.user:
+            from urllib.parse import urlencode
+            service=request.args.get('service','overview')[:80]
+            return redirect(r.PREFIX+'/login?'+urlencode({'mode':'beneficiary' if service=='beneficiary' else 'staff','analytics':'1','service':service}))
         if g.session.get('mode') != 'staff':
+            if request.args.get('service')=='beneficiary':
+                return r.page('dashboard.html',report=service_reporting.personal_report(r,g.user))
             return r.page('staff-access-required.html', service='Analytics', login_url=r.PREFIX+'/login?mode=staff&analytics=1', role_note='an assigned analytics staff role'), 403
         require()
-        return r.page('analytics.html',report=report(),modules=__import__('knowledge_management').MODULES)
+        return r.page('analytics.html' if request.args.get('view') == 'details' else 'dashboard.html',report=report(),modules=__import__('knowledge_management').MODULES)
 
     @bp.get(r.PREFIX+'/api/analytics')
     def api():
+        if g.user and g.session.get('mode')!='staff' and request.args.get('service')=='beneficiary':
+            return service_reporting.personal_report(r,g.user)
         require();return report()
+
+    @bp.post(r.PREFIX+'/api/analytics/refresh')
+    def refresh_report():
+        require()
+        # Existing POST guard enforces session CSRF. Cross-process lock prevents overlapping collectors.
+        import fcntl,time
+        with open(r.ROOT/'analytics-refresh.lock','a') as lock:
+            try:fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
+            except BlockingIOError:return {'message':'A refresh is already running. Try again shortly.'},409
+            previous=r.one("SELECT value FROM analytics_metadata WHERE key='manual_refresh_at'")
+            if previous and time.time()-float(previous['value'])<15:
+                return report()
+            try:
+                import analytics_sources
+                result=analytics_sources.refresh(r)
+            except Exception:
+                return {'message':'Collection could not finish. The last successful snapshots are retained.'},503
+            r.execute("INSERT OR REPLACE INTO analytics_metadata VALUES('manual_refresh_at',?)",(str(time.time()),))
+            return {**report(),'refresh_results':result}
 
     @bp.get(r.PREFIX+'/api/analytics/export.csv')
     def export():

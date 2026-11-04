@@ -31,6 +31,55 @@ class Analytics(unittest.TestCase):
    r.execute("UPDATE km_articles SET status='draft' WHERE id=?",(a['id'],))
    self.assertEqual(self.client.get('/registration/api/analytics').json['knowledge']['live'],before)
   finally:r.execute('UPDATE km_articles SET status=? WHERE id=?',(a['status'],a['id']))
+ def test_restricted_service_sources(self):
+  try:
+   for source in ['Geographic record data','Staff access administration']:
+    r.execute('INSERT OR REPLACE INTO analytics_source_cache VALUES(?,?,?,?,NULL)',(source,r.stamp(),'{"test":[{"label":"Count","value":7}]}',r.stamp()))
+   self.login('staff',['iqs-registration-officer'])
+   result=self.client.get('/registration/api/analytics').json
+   self.assertNotIn('Geographic record data',[s['source'] for s in result['sources']])
+   self.assertNotIn('iam-staff-ui',result['allowed_services'])
+   self.assertEqual(self.client.get('/registration/api/analytics?service=iam-staff-ui').status_code,403)
+   self.login('staff',['iqs-programme-supervisor'])
+   self.assertEqual(self.client.get('/registration/api/analytics?service=iam-staff-ui').status_code,200)
+  finally:r.execute("DELETE FROM analytics_source_cache WHERE source IN ('Geographic record data','Staff access administration')")
+ def test_beneficiary_dashboard_ownership(self):
+  for sub,count in [('test',2),('other',5)]:
+   r.execute('INSERT INTO profiles(sub,data,status) VALUES(?,?,?)',(sub,'{}','approved' if sub=='test' else 'rejected'))
+   for i in range(count):r.execute('INSERT INTO applications(sub,program,status,created) VALUES(?,?,?,?)',(sub,i,'enrolled' if sub=='test' else 'not_eligible',r.stamp()))
+  self.login('beneficiary',[])
+  response=self.client.get('/registration/api/analytics?service=beneficiary')
+  self.assertEqual(response.status_code,200)
+  data=response.json
+  self.assertEqual(data['allowed_services'],['beneficiary']);self.assertEqual(len(data['sources']),1)
+  self.assertEqual(data['sources'][0]['data']['my_application_status'],[{'label':'enrolled','value':2}])
+  self.assertNotIn('not_eligible',json.dumps(data));self.assertNotIn('rejected',json.dumps(data))
+  self.assertEqual(self.client.get('/registration/analytics?service=beneficiary').status_code,200)
+  self.assertEqual(self.client.post('/registration/api/analytics/refresh',data={'csrf':'test-csrf'}).status_code,403)
+ def test_refresh_requires_csrf_and_staff(self):
+  self.assertEqual(self.client.post('/registration/api/analytics/refresh',data={'csrf':'wrong'}).status_code,403)
+  self.login('staff',[])
+  self.assertEqual(self.client.post('/registration/api/analytics/refresh',data={'csrf':'test-csrf'}).status_code,403)
+ def test_demo_provenance_and_no_native_mix(self):
+  try:
+   r.execute("INSERT INTO dashboard_demo_records VALUES('TEST-DEMO','odk','submissions','Approved (demo)','Lagos',?,'test')",(r.stamp(),))
+   data=self.client.get('/registration/api/analytics').json
+   self.assertTrue(data['demo']['odk']['synthetic']);self.assertEqual(data['demo']['odk']['record_count'],1)
+   self.assertEqual(data['demo']['odk']['data']['submissions'],[{'label':'Approved (demo)','value':1}])
+   self.assertNotIn('TEST-DEMO',json.dumps(data['sources']))
+  finally:r.execute("DELETE FROM dashboard_demo_records WHERE record_id='TEST-DEMO'")
+ def test_dashboard_access_and_details(self):
+  page=self.client.get('/registration/analytics?service=pbms')
+  self.assertEqual(page.status_code,200);self.assertIn(b'dashboard-data',page.data)
+  detail=self.client.get('/registration/analytics?view=details')
+  self.assertEqual(detail.status_code,200);self.assertIn(b'Export aggregate CSV',detail.data)
+  self.login('staff',[])
+  self.assertEqual(self.client.get('/registration/analytics?service=pbms').status_code,403)
+  self.login('beneficiary',[])
+  self.assertEqual(self.client.get('/registration/analytics?service=register').status_code,403)
+  self.client.delete_cookie('IQS-INTAKE',path='/registration')
+  redirect=self.client.get('/registration/analytics?service=register')
+  self.assertEqual(redirect.status_code,302);self.assertIn('service=register',redirect.location)
  def test_event_retry_csrf_and_versions(self):
   response,data=self.event();self.assertEqual(response.status_code,200);self.assertTrue(response.json['accepted'])
   self.assertFalse(self.client.post('/registration/api/analytics/events',data=data).json['accepted'])

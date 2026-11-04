@@ -9,7 +9,7 @@ Read **[DEVELOPER-SETUP.md](DEVELOPER-SETUP.md)** for system requirements, devel
 * **Quick standalone UX/KMS preview:** run `Start-Experience-Preview.bat`. This runs a small, separate Experience Kit; it is not the complete NigeriaG2P site.
 * **Full sandbox installation:** run `Prepare-Full-Lab.bat` to verify and extract the original kit, then follow the staged guide. `Install-WSL-Ubuntu.bat` can install WSL and Ubuntu 22.04 when needed. Full installation and the newer feature overlay remain manual and have not been verified on a clean machine.
 * **Exact operational state:** obtain a separately encrypted private backup and its key through approved channels. GitHub does not contain live databases, passwords, private keys or tunnel credentials. Do not run a recovered public tunnel against the existing site.
-* **Android/iOS prototype:** see [mobile-app/README.md](mobile-app/README.md). This early React Native project opens the existing sandbox services in the device browser; signed installable apps and native authentication are not yet available.
+* **Field mobile demo:** the [v3 packages](downloads/v3/README.md) include a test-signed Android sample and an iPhone/iPad web preview. Supervisor authentication is not implemented. The older [React Native prototype](mobile-app/README.md) is separate.
 
 ## Download and use on another machine
 
@@ -71,3 +71,9 @@ The current lab sources include the NSIPA identity, shared service theme and nat
 ## Current NSIPA v2 packages — 3 November 2026
 
 Download the [complete handoff, Figma/FigCraft design kit and Experience Kit v2](downloads/v2/README.md). This includes updated logos, 240 design screens, both Ooru handoffs and five refreshed videos. The runnable source in [`latest-source/experience-kit`](latest-source/experience-kit/README.md) is now the NSIPA edition (software 0.2.0). SHA-256 files accompany every download. Earlier archives remain historical baselines.
+
+## Current NSIPA v3 packages — 4 November 2026
+
+Download the [UX/UI Design Package v3](downloads/v3/NigeriaG2P-UX-UI-Design-Package-v3.zip?raw=true), [Complete Handoff v3](downloads/v3/NigeriaG2P-NSIPA-Complete-Handoff-v3.zip?raw=true), or [Experience Kit v3](downloads/v3/OpenG2P-Experience-Kit-v3.zip?raw=true). See the [v3 package guide](downloads/v3/README.md) and companion `.sha256` files. Earlier v2 packages remain available.
+
+This source snapshot adds connected service dashboards, the public territorial atlas, the synthetic Jos CCT pilot, and the sample Android/iOS field experience. Source files and installers are lab-specific, not an unattended installer. Payments remain simulated; source-dated geographic gaps are retained. The Android test PIN is not an authenticated supervisor and the iOS web preview has no server sync. No runtime credentials, ODK App User URL, private keys or household databases are included.
