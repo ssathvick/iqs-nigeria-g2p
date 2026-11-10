@@ -7,7 +7,7 @@ for name in ['test-kms-readiness.py','test-local-ai.py','test-persona-workspaces
  results.append({'suite':name,'passed':p.returncode==0,'output':p.stdout+p.stderr})
  assert p.returncode==0,p.stderr
 def sample(i):
- start=time.perf_counter();response=requests.get('https://nigeriag2p.com/registration/knowledge?q=household+registration',timeout=20)
+ start=time.perf_counter();response=requests.get('https://g2p.wverve.in/registration/knowledge?q=household+registration',timeout=20)
  return {'status':response.status_code,'seconds':round(time.perf_counter()-start,4),'no_store':'no-store' in response.headers.get('Cache-Control',''),'matches':'12 matching entries' in response.text}
 with concurrent.futures.ThreadPoolExecutor(max_workers=6) as pool:checks=list(pool.map(sample,range(24)))
 assert all(a['status']==200 and a['no_store'] and a['matches'] for a in checks)

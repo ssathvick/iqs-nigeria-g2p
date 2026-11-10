@@ -20,10 +20,10 @@ class Permissions(unittest.TestCase):
   self.client.delete_cookie('IQS-INTAKE');self.assertEqual(self.client.get('/registration/api/workspace').status_code,401)
  def test_default_login_destination_respects_staff_role(self):
   for role in ['iqs-registration-officer','iqs-verification-officer','iqs-programme-supervisor']:
-   self.assertEqual(r.default_login_destination('staff',[role]),'/registration/workspace')
-  self.assertEqual(r.default_login_destination('staff',['iqs-intake-reviewer']),'/registration/staff')
+   self.assertEqual(r.default_login_destination('staff',[role]),'/registration/analytics')
+  self.assertEqual(r.default_login_destination('staff',['iqs-intake-reviewer']),'/registration/analytics')
   self.assertEqual(r.default_login_destination('staff',[]),'/registration/workspace')
-  self.assertEqual(r.default_login_destination('beneficiary',[]),'/registration/')
+  self.assertEqual(r.default_login_destination('beneficiary',[]),'/registration/analytics?service=beneficiary')
   self.assertEqual(self.client.get('/registration/staff').status_code,403)
  def test_citizen_ownership(self):
   self.login('beneficiary','owner',[]);d=self.client.get('/registration/api/workspace').json;self.assertEqual([p['sub'] for p in d['profiles']],['owner']);self.assertEqual(self.post('correct').status_code,403)
@@ -47,4 +47,6 @@ class Permissions(unittest.TestCase):
  def test_clear_return_reason(self):
   r.execute("UPDATE profiles SET status='pending_review' WHERE sub='owner'");self.login('staff','independent',['iqs-verification-officer'])
   self.assertEqual(self.post('reject',reason='short').status_code,400);self.assertEqual(self.post('reject',reason='Please confirm the community.').status_code,200)
+  history=r.one("SELECT actor,action,reason FROM profile_reviews WHERE sub='owner' ORDER BY id DESC LIMIT 1")
+  self.assertEqual(history['actor'],'independent');self.assertEqual(history['reason'],'Please confirm the community.')
 if __name__=='__main__':unittest.main()

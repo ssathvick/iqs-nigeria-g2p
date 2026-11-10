@@ -27,8 +27,8 @@ with r.app.test_request_context('/registration/simulation'):
     g.session={'mode':'staff','csrf':'offline-preview-only'};g.staff=True
     html=r.app.view_functions['partner_simulation.console']()
     # Preview is static, contains synthetic data only and cannot submit to the live service.
-    html=html.replace('href="/registration/static/style.css"','href="https://nigeriag2p.com/registration/static/style.css"')
-    html=html.replace('src="/iqs-brand/iqs-logo.png"','src="https://nigeriag2p.com/iqs-brand/iqs-logo.png"')
+    html=html.replace('href="/registration/static/style.css"','href="https://g2p.wverve.in/registration/static/style.css"')
+    html=html.replace('src="/iqs-brand/iqs-logo.png"','src="https://g2p.wverve.in/iqs-brand/iqs-logo.png"')
     html=html.replace('<form method="post"','<form onsubmit="return false" method="post"')
     Path('/mnt/h/Nigeria_Mosip/codex/outputs/simulation-preview.html').write_text(html)
 print(json.dumps({'counts':r.simulation_report()['counts'],'synthetic':True}))

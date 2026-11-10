@@ -1,3 +1,7 @@
+## Current NSIPA project backup — 10 November 2026
+
+See [updated source backup and consolidated report](source-snapshots/2026-11-10-nsipa/README.md). This is a credential-free source/documentation snapshot; older packages below are historical.
+
 # IQS Nigeria G2P recovery repository
 
 Private handoff of the Nigeria OpenG2P synthetic sandbox installation kit, newer custom source, and operations documentation. The complete platform is not yet a verified one-click installer or a production-ready CCT system.

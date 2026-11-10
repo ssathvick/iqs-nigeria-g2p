@@ -2,7 +2,7 @@
 import concurrent.futures,datetime as dt,json,time
 from pathlib import Path
 import requests
-BASE='https://nigeriag2p.com/registration'
+BASE='https://g2p.wverve.in/registration'
 checks={}
 for path,expected in [('/api/workspace',401),('/api/analytics',401),('/api/simulation/report',401),('/api/phase1/report',401),('/api/phase1/context',401),('/api/phase1/readiness',401),('/api/phase1/conditionality',401),('/phase1/conditionality',401),('/phase1/cms',401),('/phase1/field',401),('/api/phase1/public-data',200)]:
  res=requests.get(BASE+path,timeout=15,allow_redirects=False)
