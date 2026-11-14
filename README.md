@@ -1,91 +1,129 @@
-## Current NSIPA project backup — 11 November 2026
+# IQS Nigeria G2P â€” current application and installation handoff
 
-See [updated source backup and consolidated report](source-snapshots/2026-11-11-nsipa/README.md). This is a credential-free source/documentation snapshot; older packages below are historical.
+**Current application source: 14 November 2026. This repository is public.**
 
-## Current NSIPA project backup — 10 November 2026
+This release contains the updated Master Beneficiary Registry UI, native Registry/AWE review workflow, staff personas and roles, shared knowledge/navigation, and the native PBMS programme-to-disbursement approval flow. These are changes to the actual applications. A separate standalone Experience Kit remains available for previewing the reusable UX/KMS template.
 
-See [updated source backup and consolidated report](source-snapshots/2026-11-10-nsipa/README.md). This is a credential-free source/documentation snapshot; older packages below are historical.
-
-# IQS Nigeria G2P recovery repository
-
-Private handoff of the Nigeria OpenG2P synthetic sandbox installation kit, newer custom source, and operations documentation. The complete platform is not yet a verified one-click installer or a production-ready CCT system.
+The source can be cloned without a GitHub access grant. Signing into the deployed applications still requires destination-specific accounts and permissions. No running database, original account passwords, private keys, tunnel credentials, Camtasia recording or voice sample is included.
 
 ## Start here
 
-Read **[DEVELOPER-SETUP.md](DEVELOPER-SETUP.md)** for system requirements, developer access, and step-by-step instructions.
+1. Read the installation path below and the detailed [current installation guide](docs/current/INSTALLATION.md).
+2. Use the [step-by-step application walkthrough](docs/current/USAGE.md) for the five Registry roles and the five PBMS accounts.
+3. Inspect the [release inventory](source-snapshots/2026-11-14-nsipa/README.md), [source hashes](source-snapshots/2026-11-14-nsipa/source-manifest.json) and [observed runtime images](source-snapshots/2026-11-14-nsipa/runtime-images.json).
 
-* **Quick standalone UX/KMS preview:** run `Start-Experience-Preview.bat`. This runs a small, separate Experience Kit; it is not the complete NigeriaG2P site.
-* **Full sandbox installation:** run `Prepare-Full-Lab.bat` to verify and extract the original kit, then follow the staged guide. `Install-WSL-Ubuntu.bat` can install WSL and Ubuntu 22.04 when needed. Full installation and the newer feature overlay remain manual and have not been verified on a clean machine.
-* **Exact operational state:** obtain a separately encrypted private backup and its key through approved channels. GitHub does not contain live databases, passwords, private keys or tunnel credentials. Do not run a recovered public tunnel against the existing site.
-* **Field mobile demo:** the [v3 packages](downloads/v3/README.md) include a test-signed Android sample and an iPhone/iPad web preview. Supervisor authentication is not implemented. The older [React Native prototype](mobile-app/README.md) is separate.
+## What changed
 
-## Download and use on another machine
-
-Sign in to GitHub using an account with access, then clone this repository:
-
-```powershell
-git clone https://github.com/ssathvick/iqs-nigeria-g2p.git
-Set-Location iqs-nigeria-g2p
-Expand-Archive -LiteralPath .\IQS-Nigeria-G2P-Recovery-Bundle.zip -DestinationPath .\recovery
-```
-
-Alternatively use **Code → Download ZIP**, extract it, then extract the recovery bundle inside it.
-
-The historical reference tree is in `recovery/iqs-nigeria-g2p/`. Begin with its `README.md` and `docs/REINSTALL.md`, then follow the installation Word guide. The archive preserves folder structure and the pinned chart kit; it is not an executable installer and predates `latest-source/`.
-
-## Included
-
-| Contents | Location inside the recovery bundle |
+| Area | Current implementation |
 | --- | --- |
-| Installation kit with chart dependencies and retained patches | `installation/` |
-| Project scripts, startup launchers, registration source and templates | `lab/` |
-| IQS branding assets | `lab/branding/` |
-| Installation, operations and Cloudflare Word guides | `docs/guides/` |
-| Illustrated UX improvement plan | `docs/ux/` |
-| Submitted SOW, SOP and delivery framework | `docs/scope/` |
-| Recorded versions, image digests and synthetic fixtures | `inventory/` |
-| File integrity inventory | `MANIFEST.sha256.json` |
+| Master Registry UI | Role-aware overview, household and individual capture/details, readable labels, review/history, search/filter/pagination, configuration tools and responsive layouts |
+| Native reviews | Registry/AWE backend patches for independent two-stage review, return for correction, rejection, resubmission and retained history; native services remain the workflow owner |
+| Registry staff | Registration Officer, Field Agent, Approver 1, Approver 2 and Registry Admin, with native Keycloak/IAM permission mappings |
+| Survey and offline | Consent/sponsor/respondent/community and household/member fields; final survey without enumerator selector; authenticated staff and Collect setup utilities |
+| PBMS setup | Cash Benefit Code in NGN, programme mapping, eligibility/entitlement rules, NGN 25,000 maximum, monthly enrolment/disbursement cycles and scheduled list calculation |
+| PBMS approvals | Separate Programme Admin, Payment, Finance, Audit and CEO accounts; programme-scoped access, comments/evidence, sequential decisions, rejection/correction and revision history |
+| Final output | Programme Admin downloads a native `.xls` after all three approvals; export checks the current list content and records its history |
+| Branding | Existing NSIPA logo with words retained; sections designated for later removal remain available |
 
-The principal Word documents are also available individually at the repository root for convenient download.
+The final PBMS approval/export policy does not send payments. Legacy payment programmes remain separate. Master Registry and PBMS have distinct native models; their synchronization adapter must be configured and verified on the new machine.
 
-## Integrity check
+## Repository layout
 
-Compare this command's output with `BUNDLE.sha256` before extracting:
+| Path | Purpose |
+| --- | --- |
+| `latest-source/lab/registry-ui-source/` | Current Next.js/React native Master Registry frontend and Docker build |
+| `latest-source/lab/meeting-native/` | Reviewed Registry/AWE module patches, originals and deployment map |
+| `latest-source/lab/pbms-react/src/` | Actual PBMS React screens and approval flow |
+| `latest-source/lab/pbms-react/nsipa_approval/` | Native Odoo 17 addon: persisted rules, cycles/lists, roles, approvals, corrections, history, cron and XLS |
+| `latest-source/lab/pbms-react/workflow_api.py` | Session-bound adapter for the connected frontend; no browser admin key |
+| `latest-source/lab/persona-ui/`, `registration-ui/`, `knowledge/`, `branding/` | Shared personas/navigation, gateway, guidance and established NSIPA identity |
+| `latest-source/lab/release/` | Destination-source preparation, PBMS install plan/apply, account provisioning and configuration examples |
+| `docs/current/` | Current installation, use, validation, troubleshooting and rollback instructions |
+| `source-snapshots/` | Dated release manifests; earlier snapshots/packages remain historical |
 
-```powershell
-Get-FileHash .\IQS-Nigeria-G2P-Recovery-Bundle.zip -Algorithm SHA256
+The base recovery bundle and installation/operations Word guides are at this repository root. `latest-source/` is the current application overlay; the recovery bundle remains the historical installation baseline.
+
+## Clone and prepare
+
+```bash
+git clone https://github.com/ssathvick/iqs-nigeria-g2p.git
+cd iqs-nigeria-g2p
+LAB_SOURCE="$PWD/latest-source/lab"
 ```
 
-## Important reproduction boundaries
+For the complete platform, use Ubuntu 22.04 with systemd, K3s/Kubernetes, Helm, ingress/TLS, Docker, Python/venv and Node.js 22. On Windows use WSL2. The full-lab planning baseline is 12Ã¢â‚¬â€œ16 logical processors, 64 GB host RAM and 150 GB free SSD; see the detailed guide for qualifications and WSL settings. A standalone frontend build needs fewer resources but does not replace its backend.
 
-Generate fresh passwords, keys, certificates and Cloudflare tunnel credentials on the new machine. This repository excludes the current account passwords, live client secrets, private keys, kubeconfig, database dumps, recordings and runtime backups.
+The [IQS installation repository](https://github.com/ssathvick/iqs-nigeria-g2p) includes the historical pinned base kit, Windows preparation launchers and installation/operations Word guides. Install the base in its documented stages first, then reconcile Registry staff API 1.2.1, AWE 1.2.2 and PBMS 3/Odoo 17 with the current release inventory. The older kit alone does not automatically install this new overlay.
 
-The original WSL2 installation and registration integration have been exercised. Clean-machine replay and the native Ubuntu adaptation have not yet been executed. Follow the staged guide and complete its destination acceptance checks. Some diagnostic scripts reference original fixture IDs and are reference only; do not run all scripts indiscriminately.
+Prepare destination paths and hosts without modifying the live system:
 
-Git stores source and documentation, not the running application's database or persistent volumes. For an exact migration, retain a separate encrypted runtime backup. The included environment is a synthetic sandbox with simulated integrations, not a production service or live payment deployment.
+```bash
+cp "$LAB_SOURCE/release/deployment.example.json" /tmp/nsipa-deployment.local.json
+# Edit the local file with your own service hostnames first.
+sudo python3 "$LAB_SOURCE/release/prepare_source.py" \
+  --source "$LAB_SOURCE" --destination /opt/nsipa-current/lab \
+  --config /tmp/nsipa-deployment.local.json
+SOURCE=/opt/nsipa-current/lab
+```
 
-Third-party software retains its respective licenses and notices. Project documents are stored privately; no open-source license is assigned to them.
+The helper requires a new empty destination. It adapts original source paths/hosts, omits local dependencies and private/runtime artifacts, and does not deploy services. Set new DNS, TLS, OIDC callbacks, cookie domains, ingress routes and allowed origins consistently. Generate destination secrets privately; never reuse this installation's tunnel identity.
 
-Archived 4 October 2026.
+## Install the current overlay
 
-## Newer developer source snapshot (28 October 2026)
+The [detailed installation guide](docs/current/INSTALLATION.md) gives prerequisites, exact sequencing and checkpoints for every step below. Complete the base platform and registration integration before these stages.
 
-`latest-source/` contains a source snapshot based on the separate UX/KMS repository, overlaid with matching current local lab files and selected newer analytics, simulation and Phase 1 modules. See `latest-source/lab/OORU-CCT-Implementation-Handoff.md` and `latest-source/lab/Analytics-Operations.md` first. The original recovery bundle above remains the installation baseline; the new snapshot is not a complete rebuilt installation kit. Reconcile and test the two before deployment. Snapshot scripts may refer to the original machine and require review. No clean installation, production security assessment, live NSR/NIMC integration, payment settlement certification or production acceptance is asserted. Use synthetic data only until those gaps are closed.
+1. Install the registration Python dependencies and `qrcode` in the destination venv. Build `persona-ui` with `npm ci` and `npm run build`, and deploy its reviewed modules/assets into the initialized registration service.
+2. Apply `deploy_meeting_native_backend.py` to the matching Registry/AWE versions. Apply the final survey metadata stages documented in the guide. These take private backups and mount the reviewed native patches persistently.
+3. Create five distinct Registry staff identities in the destination staff realm. Populate a private copy of `release/registry-accounts.example.json`. Inspect, then apply `integrate_native_registry_accounts.py --accounts /secure/registry-accounts.local.json --apply`. Passwords and historical decisions are preserved; the supplied first/second reviewer identities determine the versioned AWE policies.
+4. Install the authenticated staff/field utilities after their dependencies exist. Configure `registry-ui-source/.env.local` and runtime variables, including `NSIPA_REGISTRATION_URL`. Build `Dockerfile.native`, import/deploy it with `deploy_meeting_native_ui.py`, and verify native sign-in and both review stages.
+5. Install the PBMS native addon using the new portable helper:
 
-## NSIPA branding update
+```bash
+sudo /opt/openg2p-lab/registration-venv/bin/python "$SOURCE/release/install_pbms.py"
+sudo /opt/openg2p-lab/registration-venv/bin/python "$SOURCE/release/install_pbms.py" --apply
+cd "$SOURCE/pbms-react"
+npm ci
+npm run build
+sudo /opt/openg2p-lab/registration-venv/bin/python install-adapter.py
+```
 
-The current lab sources include the NSIPA identity, shared service theme and native company/realm branding installers. See [latest-source/lab/branding/README.md](latest-source/lab/branding/README.md) for build, application and verification steps, and editable Illustrator/SVG/Photoshop masters. Historical recovery archives retain their original contents; apply the current branding sources after restoration.
+The first addon command only prints a plan. Apply verifies the `xlwt` XLS dependency and administrator access, backs up PBMS and the deployment, installs the persistent ConfigMap mount and installs/upgrades `nsipa_approval`. It does not seed programmes or invoke bank payments. The frontend build and adapter require the native addon; static assets alone cannot implement this flow.
 
-## Historical NSIPA v2 packages — 3 November 2026
+6. Publish `pbms-react/dist/` as a versioned static release with a `current` symlink. Configure Nginx with the prepared `release/pbms.nginx.example.conf`, proper destination TLS/ingress and `/pbms-ui-api/` loopback routing. Validate `nginx -t` before reload. Configure `PBMS_ALLOWED_ORIGINS` when required.
+7. Use a private copy of `release/pbms-accounts.example.json` and `release/provision_pbms.py` to create the five PBMS accounts. Newly generated passwords are written only to a private mode-0600 file; existing passwords are preserved. A separate staff access administrator grants each account access to each new programme. Do not reuse original record IDs or expect the source clone to contain the recorded demo's data.
+8. Run the destination acceptance checklist in the installation guide, including both successful and denied actions, rejection/resubmission, restart persistence and XLS contents.
 
-Download the [complete handoff, Figma/FigCraft design kit and Experience Kit v2](downloads/v2/README.md). This includes updated logos, 240 design screens, both Ooru handoffs and five refreshed videos. The v2 Experience Kit was software 0.2.0; the current source in [`latest-source/experience-kit`](latest-source/experience-kit/README.md) is v3 (software 0.3.0). SHA-256 files accompany every download. Earlier archives remain historical baselines.
+Do not execute all retained scripts as an installer. In particular, the older supplemental `deploy-mbr-workflow.py`, `deploy-mbr-integration.py` and `iqs-mbr-native-import.timer` are retired for current Registry ownership. Earlier private backup/cutover scripts are historical recovery tools, not fresh-database setup stages.
 
-## Current NSIPA v3 packages — 4 November 2026
+## Use the new workflows
 
-Download the [UX/UI Design Package v3](downloads/v3/NigeriaG2P-UX-UI-Design-Package-v3.zip?raw=true), [Complete Handoff v3](downloads/v3/NigeriaG2P-NSIPA-Complete-Handoff-v3.zip?raw=true), or [Experience Kit v3](downloads/v3/OpenG2P-Experience-Kit-v3.zip?raw=true). See the [v3 package guide](downloads/v3/README.md) and companion `.sha256` files. Earlier v2 packages remain available.
+Registry: sign in as Registration Officer/Field Agent, capture a draft and submit; Approver 1 then Approver 2 review independently; inspect the resulting native master/history. Returned records follow correction/resubmission; permanent rejections remain locked. Registry Admin manages staff/configuration and does not perform approval duties. See [Registry use and field setup](docs/current/USAGE.md).
 
-This source snapshot adds connected service dashboards, the public territorial atlas, the synthetic Jos CCT pilot, and the sample Android/iOS field experience. Source files and installers are lab-specific, not an unattended installer. Payments remain simulated; source-dated geographic gaps are retained. The Android test PIN is not an authenticated supervisor and the iOS web preview has no server sync. No runtime credentials, ODK App User URL, private keys or household databases are included.
+PBMS:
 
-## Version 0.5 splash update
+1. From the service portal, open the PBMS block and sign in as **Programme Admin**.
+2. Open **Programme approval flow**, create an active programme, select the base registry, create/map an NGN cash Benefit Code, set the entitlement and eligibility criteria, and select Finance/Audit/CEO groups. Save configuration.
+3. Create the monthly enrolment cycle. After registration closes, create its list and wait for scheduled processing/auto-approved enrolment.
+4. Create the linked disbursement cycle and list; review the beneficiary count, individual amounts and total.
+5. **Payment** submits the list for approval with a comment.
+6. **Finance**, **Audit** and **CEO** sign in separately and approve in that order. Comments, evidence, identities, UTC times and revisions remain in history.
+7. On rejection, Programme Admin corrects with a reason; Payment resubmits a new revision and all three reviews restart.
+8. Once **Fully verified**, Programme Admin exports **Beneficiaries (.xls)** and verifies the worksheet. Two beneficiaries at NGN 25,000 each must total NGN 50,000.
 
-The Android test build and the iPhone/iPad browser preview now show the field-demo introduction artwork at launch. Android package v0.5 is test-signed and supports in-place updates from v0.4 using the same demo signing key. The iOS option remains a web preview, not an IPA or a connected sync client. The splash update has not yet been tested on a physical phone. See the [download and test page](https://nigeriag2p.com/field-preview/android/). Earlier v3 delivery archives remain unchanged historical snapshots.
+The recorded November dates and IDs are examples. Use destination-appropriate closed registration dates and newly created records. Approval state and beneficiary data live in the backend, not browser local storage. [Complete walkthrough and role matrix](docs/current/USAGE.md).
+
+## Update, troubleshoot and recover
+
+Before updating an existing machine, back up database/filestore and service/deployment configuration, review `git diff` and release hashes, and stage a new source tree. Run `git pull --ff-only` in a clean checkout; rebuild the changed frontends and deliberately apply only their corresponding backend/adapter updates. A pull does not deploy code or migrate operational state.
+
+If a list remains Pending, check Odoo scheduled actions and list errors before retrying; the native worker normally processes once a minute. For a 403, check the authenticated role, programme membership, Origin and cookie/session. For Registry utility failures, check IAM permissions, `NSIPA_REGISTRATION_URL`, CA trust and the private ODK setup. Inspect service logs privately.
+
+Frontend rollback uses the prior release symlink and validated Nginx config. Backend rollback requires the matching private database/filestore and deployment recovery point, reconciliation of later writes and a controlled restart. Do not delete audit history or change approval status manually. [Diagnostics and rollback detail](docs/current/INSTALLATION.md#10-destination-acceptance-operations-and-rollback).
+
+## Verification and limits
+
+The Registry frontend source/lockfile now pins Next.js **16.4.6** and React/React DOM **19.2.7**. The observed runtime inventory remains a record of the original installation; build the new image from this source before deploying the updated frontend.
+
+Release verification covers source integrity, secret-pattern checks, helper plan/configuration behavior, Python syntax, native addon XML, and frontend builds. The original deployed environment exercised native Registry reviews and the five-account PBMS workflow, corrections and binary XLS output. This release has **not** had a complete clean-machine replay. Destination-specific acceptance is required; this README does not claim unattended installation, live-bank settlement, national-identity verification or production acceptance.
+
+Runtime records/secrets and recording media remain outside Git. Third-party components keep their own licenses/notices, including the LGPL-3 declaration of the native addon. Public repository visibility does not grant a new blanket license over every project document or asset. Historical packages are retained with their earlier contents and limits.
