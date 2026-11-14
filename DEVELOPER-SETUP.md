@@ -1,4 +1,4 @@
-# Current developer setup — 14 November 2026
+# Current developer setup â€” 14 November 2026
 
 This repository is public. Clone without a repository access grant, then follow [README.md](README.md) and the [current installation guide](docs/current/INSTALLATION.md). They cover the new native Master Registry UI, native roles/Registry-AWE workflow, and the native PBMS addon with the five-account programme-to-XLS flow.
 
