@@ -37,3 +37,6 @@ startup-logs/
 
 # Reusable kit schema is source, not runtime data.
 !experience-kit/schema.sql
+!lab/record-security/schema.sql
+!lab/record-security/policies.sql
+!lab/record-security/awe-schema.sql

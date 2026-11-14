@@ -6,6 +6,7 @@ import {useRbac} from '@/context/RbacContext';
 import {useFetch} from '@/shared/hooks/useFetch';
 import {useIntakeForms} from '@/features/intake-form/hooks/useIntakeForms';
 import styles from './registry-dashboard.module.css';
+import {useRegistryScope} from '@/components/shared/RegistryScope';
 
 type IconName='home'|'people'|'form'|'change'|'task'|'offline'|'staff'|'arrow'|'refresh'|'search';
 function Icon({name}:{name:IconName}){
@@ -35,7 +36,8 @@ function Panel({id,title,subtitle,icon,tag,tone='',children}:{id:string;title:st
 }
 function Dashboard(){
  const router=useRouter(),{registers}=useRegister(),{can,canAny,loading:permissionsLoading}=useRbac();
- const viewRegisters=can('register:view'),viewIntake=can('intakeSubmission:view'),editIntake=can('intakeSubmission:edit'),viewChanges=can('changeRequest:view'),viewTasks=canAny(['verificationIntakeForm:create','verificationChangeRequest:create']);
+ const scope=useRegistryScope();
+ const viewRegisters=['admin','officer'].includes(scope||'')&&can('register:view'),viewIntake=can('intakeSubmission:view'),editIntake=can('intakeSubmission:edit'),viewChanges=scope==='admin'&&can('changeRequest:view'),viewTasks=canAny(['verificationIntakeForm:create','verificationChangeRequest:create']);
  const [intakeType,setIntakeType]=useState('household'),[searchType,setSearchType]=useState('household'),[query,setQuery]=useState('');
  const household=registers.find(r=>r.register_mnemonic.toLowerCase()==='household'),intakeRegister=registers.find(r=>r.register_mnemonic.toLowerCase()===intakeType);
  const {forms}=useIntakeForms(household?.register_id);const form=forms.find(f=>f.form_id==='c1000000-0000-4000-8000-000000000002')||forms[0];
