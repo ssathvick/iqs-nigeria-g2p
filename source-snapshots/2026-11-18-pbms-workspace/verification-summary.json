@@ -1,0 +1,88 @@
+{
+  "release_date": "2026-11-18",
+  "status": "passed",
+  "environment": "Original hosted PBMS deployment; existing synthetic fixtures",
+  "build": "npm ci and npm run build from the repository checkout passed",
+  "live_asset_parity": true,
+  "read_only_browser_checks": true,
+  "roles": [
+    {
+      "role": "admin",
+      "status": "passed",
+      "checks": [
+        "sidebar composition",
+        "programme open and seven scoped tabs",
+        "counts matched native PBMS queries",
+        "programme switching and refresh persistence",
+        "existing enrollment and disbursement list review",
+        "administration link visibility matched native groups",
+        "no JavaScript page errors"
+      ]
+    },
+    {
+      "role": "payment",
+      "status": "passed",
+      "checks": [
+        "sidebar composition",
+        "programme open and seven scoped tabs",
+        "counts matched native PBMS queries",
+        "programme switching and refresh persistence",
+        "existing enrollment and disbursement list review",
+        "administration link visibility matched native groups",
+        "no JavaScript page errors"
+      ]
+    },
+    {
+      "role": "finance",
+      "status": "passed",
+      "checks": [
+        "sidebar composition",
+        "programme open and seven scoped tabs",
+        "counts matched native PBMS queries",
+        "programme switching and refresh persistence",
+        "existing enrollment and disbursement list review",
+        "administration link visibility matched native groups",
+        "no JavaScript page errors"
+      ]
+    },
+    {
+      "role": "audit",
+      "status": "passed",
+      "checks": [
+        "sidebar composition",
+        "programme open and seven scoped tabs",
+        "counts matched native PBMS queries",
+        "programme switching and refresh persistence",
+        "existing enrollment and disbursement list review",
+        "administration link visibility matched native groups",
+        "no JavaScript page errors"
+      ]
+    },
+    {
+      "role": "ceo",
+      "status": "passed",
+      "checks": [
+        "sidebar composition",
+        "programme open and seven scoped tabs",
+        "counts matched native PBMS queries",
+        "programme switching and refresh persistence",
+        "existing enrollment and disbursement list review",
+        "administration link visibility matched native groups",
+        "no JavaScript page errors"
+      ]
+    }
+  ],
+  "additional_checks": [
+    "scoped creation form programme selector disabled for Programme Admin",
+    "390 pixel mobile overflow check and desktop/mobile inspection",
+    "native system administrator user list and apps view opened",
+    "no user access changes or module installation",
+    "git diff check passed"
+  ],
+  "limits": [
+    "No new approval write cycle or payment dispatch performed",
+    "No real-bank settlement test",
+    "Fresh-machine replay remains destination acceptance"
+  ],
+  "published_data": "No credentials, beneficiary details, recording or raw screenshots included"
+}

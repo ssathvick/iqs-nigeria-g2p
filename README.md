@@ -1,6 +1,8 @@
 # IQS Nigeria G2P — current application and installation handoff
 
-**Current application source: 17 November 2026. This repository is public.**
+**Current application source: 18 November 2026. This repository is public.**
+
+**18 November PBMS update:** programme-scoped benefits, rules and beneficiary lists; Enrollment workflow and Disbursement workflow tabs; and permission-controlled native administration shortcuts, using the existing NSIPA design. Clients should use `latest-source/lab/`, not the historical ZIP packages. Start with the [current PBMS build and upgrade guide](docs/current/PBMS-UPDATE-2026-11-18.md), or the [full installation guide](docs/current/INSTALLATION.md) for a fresh machine.
 
 This release contains the updated Master Beneficiary Registry UI, native Registry/AWE review workflow, staff personas and roles, shared knowledge/navigation, and the native PBMS programme-to-payment flow. These are changes to the actual applications. A separate standalone Experience Kit remains available for previewing the reusable UX/KMS template.
 
@@ -13,6 +15,8 @@ Record security update: five isolated field-agent accounts, independent Level 1/
 1. Read the installation path below and the detailed [current installation guide](docs/current/INSTALLATION.md).
 2. Use the [complete field assistant and authorizer flow](docs/current/FIELD-ASSISTANT-FLOW.md) for the five field assistants, Level 1/Level 2, Officer and Admin. The [application walkthrough](docs/current/USAGE.md) also covers the five PBMS accounts.
 3. Inspect the [release inventory](source-snapshots/2026-11-17-middleware/README.md), [source hashes](source-snapshots/2026-11-17-middleware/source-manifest.json) and [observed runtime images](source-snapshots/2026-11-17-middleware/runtime-images.json).
+
+The [18 November PBMS release notes](source-snapshots/2026-11-18-pbms-workspace/README.md) and source manifest identify the latest frontend delta. The 17 November inventory remains the prior platform baseline; its hashes are historical for files changed by this update.
 
 ## What changed
 

@@ -1,6 +1,8 @@
 # Install the current NSIPA application on another machine
 
-Release: **17 November 2026**. Read the repository README first. Commands below run in Ubuntu 22.04, including Ubuntu under WSL2. They assume the current source has been staged as `/opt/nsipa-current/lab`. Each stage has its own checkpoint; this is a guided installation of the actual applications, not an unattended installer.
+Release: **18 November 2026**. Read the repository README first. Commands below run in Ubuntu 22.04, including Ubuntu under WSL2. They assume the current source has been staged as `/opt/nsipa-current/lab`. Each stage has its own checkpoint; this is a guided installation of the actual applications, not an unattended installer.
+
+For an existing site already running the 16 or 17 November PBMS overlay, use the [18 November frontend update guide](PBMS-UPDATE-2026-11-18.md). It includes clone/pull, build, atomic static deployment, private test inputs, acceptance and rollback. This frontend-only update needs no addon upgrade, schema migration or new permission grants. Fresh machines must still complete the full installation below using this checkout's `latest-source/lab/`.
 
 ## 1. Choose installation or state migration
 
@@ -62,7 +64,7 @@ Also check persistent volumes, database connectivity, staff Keycloak realm, IAM 
 Set `LAB_SOURCE` to `lab` in the UX checkout or `latest-source/lab` in the IQS checkout. Use an absolute path:
 
 ```bash
-LAB_SOURCE="$PWD/lab" # UX repository; for IQS use "$PWD/latest-source/lab"
+LAB_SOURCE="$PWD/latest-source/lab" # This IQS checkout; the standalone UX repository uses "$PWD/lab"
 cp "$LAB_SOURCE/release/deployment.example.json" /tmp/nsipa-deployment.local.json
 ```
 

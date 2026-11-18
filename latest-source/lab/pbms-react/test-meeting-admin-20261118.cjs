@@ -1,0 +1,12 @@
+const{chromium}=require('playwright'),assert=require('node:assert/strict'),fs=require('fs');
+if(!process.env.PBMS_ADMIN_ACCOUNT_FILE||!process.env.PBMS_BASE_URL)throw Error('Set PBMS_ADMIN_ACCOUNT_FILE and PBMS_BASE_URL for your isolated test deployment.');
+const account=JSON.parse(fs.readFileSync(process.env.PBMS_ADMIN_ACCOUNT_FILE,'utf8'));
+const base=process.env.PBMS_BASE_URL.replace(/\/?$/,'/');
+const out=process.env.PBMS_TEST_OUTPUT||'evidence/meeting-20261118';fs.mkdirSync(out,{recursive:true});
+(async()=>{const b=await chromium.launch({...(process.env.PBMS_BROWSER_CHANNEL?{channel:process.env.PBMS_BROWSER_CHANNEL}:{}),headless:true});try{const p=await b.newPage();p.setDefaultTimeout(35000);
+ if(process.env.PBMS_TEST_DEPLOYED!=='1')for(const ext of ['js','css'])await p.route('**/pbms-ui/app.'+ext,r=>r.fulfill({path:'dist/app.'+ext,contentType:ext==='js'?'application/javascript':'text/css'}));
+ await p.goto(base);await p.getByLabel('Email',{exact:true}).fill(account.login);await p.getByLabel('Password',{exact:true}).fill(account.password);await p.getByRole('button',{name:'Sign in →'}).click();await p.getByRole('link',{name:'User access settings ↗',exact:true}).waitFor();assert.equal(await p.getByRole('link',{name:'Developer apps ↗',exact:true}).count(),1);
+ await p.getByRole('link',{name:'User access settings ↗',exact:true}).click();await p.locator('.o_list_view').waitFor();assert(!/Access Error|Action not found/.test(await p.locator('body').innerText()));
+ await p.goto(base);await p.getByRole('link',{name:'Developer apps ↗',exact:true}).click();await p.locator('.o_kanban_view,.o_list_view').first().waitFor();assert(!/Access Error|Action not found/.test(await p.locator('body').innerText()));
+ fs.writeFileSync(out+'/admin-verification.json',JSON.stringify({status:'passed',checks:['Native system administrator links visible','User access settings opens native user list','Developer apps opens native modules view','No access changes or module installation performed']},null,2));console.log('PASS native administration links');
+ }finally{await b.close();}})().catch(e=>{console.error(e.message);process.exitCode=1});

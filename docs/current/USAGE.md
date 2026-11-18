@@ -41,6 +41,14 @@ Native Registry/AWE remain the workflow owners. Do not enable the retired supple
 
 ## Five-account PBMS approval journey
 
+### Current programme workspace
+
+Open **Programmes → Open** to work within a selected programme. The tabs are Programme information, Programme benefits, Benefit codes, Eligibility rules, Entitlement rules, Beneficiary lists, Enrollment workflow and Disbursement workflow. Switch programmes with the visible selector; the URL preserves the selection on refresh. New scoped rule/assignment forms keep that programme fixed.
+
+Enrollment cycles and Disbursement cycles remain in the left sidebar. Links from a programme retain its filter. Workflow tabs show saved policy settings and the corresponding programme lists; open a list to use the existing approval/history screens. **Programme setup and approval overview** returns to the established configuration and approval journey below.
+
+Benefit codes defaults to assigned codes. **Manage shared benefit catalogue** deliberately opens shared master data; use Programme benefits to map a code to a programme. Authorized native administrators have User access settings and Developer apps shortcuts. These links do not grant permissions to ordinary staff. See [current setup and update steps](PBMS-UPDATE-2026-11-18.md).
+
 | Account | Responsibility |
 | --- | --- |
 | Programme Admin | Create/configure the programme, manage monthly cycles, review/correct lists and export after final verification |

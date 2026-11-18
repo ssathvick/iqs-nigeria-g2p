@@ -1,5 +1,7 @@
 # NigeriaG2P with knowledge management and persona UX
 
+Current application overlay: **18 November 2026**. For the PBMS programme workspace, build `lab/pbms-react/` using its lockfile. See the [current PBMS setup and upgrade guide](../docs/current/PBMS-UPDATE-2026-11-18.md) and [full platform installation](../docs/current/INSTALLATION.md). The standalone Experience Kit below remains a separate preview and does not replace the connected PBMS application.
+
 Source snapshot of the NigeriaG2P application customisations: role-based persona
 workspaces, site-wide navigation, mobile help, screen/stage-sensitive guidance,
 central knowledge management, Nigeria state mapping and local Ollama assistance.

@@ -1,0 +1,69 @@
+{
+  "release_date": "2026-11-18",
+  "source_root": "latest-source/lab",
+  "scope": "PBMS frontend delta and its unchanged build inputs; prior platform inventory remains historical",
+  "hash_basis": "Canonical Git index blob bytes; Windows checkout line endings may differ",
+  "previous_commit": "a4051de92e69a0b52532176136ac8fab3a2287ae",
+  "files": [
+    {
+      "path": "pbms-react/README.txt",
+      "bytes": 2095,
+      "sha256": "ea08e522da11f16cebb3ef976e796ad185b17b8598627586e481e8bcec6cf479"
+    },
+    {
+      "path": "pbms-react/src/main.jsx",
+      "bytes": 20061,
+      "sha256": "67154e8426e1f735a0120a037deabd5137a7bd609cdcd5e9cf171328fbf58558"
+    },
+    {
+      "path": "pbms-react/src/entities.jsx",
+      "bytes": 13391,
+      "sha256": "9164ed3b8b6d47552982f3d6591a38e953599b5029bd5b8b688cdf2b43f1d01c"
+    },
+    {
+      "path": "pbms-react/src/programme-flow.jsx",
+      "bytes": 22286,
+      "sha256": "c17ffa782f74a61eac588e0f3de440ab9778fc27b95941e4d540e037f36526bb"
+    },
+    {
+      "path": "pbms-react/src/programme-workspace.jsx",
+      "bytes": 7627,
+      "sha256": "9d6d4a0b36ff308a008d993365df0ff915e3805546d68ea3a880e2ef5666863d"
+    },
+    {
+      "path": "pbms-react/src/programme-workspace.css",
+      "bytes": 1089,
+      "sha256": "b2c77d84630dbb3af7a53f252002a5088b159baa417a2b34ba1fc7c2ed236f97"
+    },
+    {
+      "path": "pbms-react/test-meeting-20261118.cjs",
+      "bytes": 8430,
+      "sha256": "010d07f1fad2e466860561e62fee6abef3bb6da870463e68df448af727abb75d"
+    },
+    {
+      "path": "pbms-react/test-meeting-admin-20261118.cjs",
+      "bytes": 2160,
+      "sha256": "ab836baadba9254f5364096c9815d90363be2f7808c6757adf6e25e978ef252e"
+    },
+    {
+      "path": "pbms-react/package.json",
+      "bytes": 218,
+      "sha256": "fbf668fea1520f908759c89ba35b0a6a3d77e124238054625a3486484e921efe"
+    },
+    {
+      "path": "pbms-react/package-lock.json",
+      "bytes": 16655,
+      "sha256": "e5787cb0cb3ac00ad52e4d66dd58eb4606fab76a4e7fbf0d86edf550a9199b73"
+    },
+    {
+      "path": "pbms-react/build.cjs",
+      "bytes": 377,
+      "sha256": "0b0532965ce21773b62f061f67755b524f61ee2643db4b5e731ba171cadbcb97"
+    },
+    {
+      "path": "pbms-react/index.html",
+      "bytes": 597,
+      "sha256": "0bfb57e067450f653e9c5a0b1686afb66946d5d3df79717c82c4d97bdbff33e7"
+    }
+  ]
+}
