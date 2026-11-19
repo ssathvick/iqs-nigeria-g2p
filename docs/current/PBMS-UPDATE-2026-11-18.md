@@ -4,6 +4,8 @@ This is the current source for the programme workspace, programme-scoped benefit
 
 Use `latest-source/lab/` from this checkout. Historical ZIP downloads, recovery bundles and earlier dated snapshots do not include this update.
 
+For the separate Registry Data Imports update, use the [Data Imports upgrade guide and acceptance file](DATA-IMPORTS-UPGRADE.md).
+
 ## Choose the installation path
 
 - **Existing installation already running the 16 or 17 November PBMS overlay:** build and replace only its PBMS static frontend using the steps below. The existing native addon, session adapter, workers and databases remain in place. No addon upgrade, schema migration, new permission grants or payment-worker restart is required for this navigation update.
