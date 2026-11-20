@@ -6,6 +6,8 @@ For an existing site already running the 16 or 17 November PBMS overlay, use the
 
 For an existing Master Registry, go directly to the [Data Imports upgrade guide](DATA-IMPORTS-UPGRADE.md). For a new installation, complete the native Registry and staff-role setup in section 6, then enable imports as described below.
 
+Install the documentation and contextual Help release after the registration gateway is available. The [Ooru installation guide](OORU-DOCS-HELP-INSTALL.md) covers the destination build, Knowledge Library upgrade, Help wiring and role checks.
+
 ## 1. Choose installation or state migration
 
 A fresh installation creates new identities, empty operational databases and new programme IDs. Git contains application source and configuration examples. The existing site's accounts, household records, approved lists and credentials are not recreated by cloning.

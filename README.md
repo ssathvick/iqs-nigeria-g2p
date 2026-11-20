@@ -2,6 +2,8 @@
 
 **Current application source: 19 November 2026. This repository is public.**
 
+**Documentation and contextual Help update, 21 November 2026.** The release includes the static docs builder, 534 public Knowledge Library entries and the role-aware Help panel. Follow the [Ooru installation and upgrade guide](docs/current/OORU-DOCS-HELP-INSTALL.md) to set destination hosts, deploy Help, verify publication and roll back if needed.
+
 **Registry Data Imports.** To enable file upload, independent approval and Registry receipt tracking on an existing installation, follow the [Data Imports upgrade and test procedure](docs/current/DATA-IMPORTS-UPGRADE.md). It includes a three-row synthetic [acceptance CSV](docs/current/examples/data-imports-acceptance.csv).
 
 **18 November PBMS update:** programme-scoped benefits, rules and beneficiary lists; Enrollment workflow and Disbursement workflow tabs; and permission-controlled native administration shortcuts, using the existing NSIPA design. Clients should use `latest-source/lab/`, not the historical ZIP packages. Start with the [current PBMS build and upgrade guide](docs/current/PBMS-UPDATE-2026-11-18.md), or the [full installation guide](docs/current/INSTALLATION.md) for a fresh machine.
